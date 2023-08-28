@@ -33,7 +33,7 @@ export class Game {
 	 */
 	enter(letters: string[]) {
 		const word = letters.join('');
-		const valid = ALLOWED_GUESSES.has(word);
+		const valid = true;
 
 		if (!valid) return false;
 
