@@ -7,7 +7,6 @@ import { cookies } from 'next/headers';
 
 export default async function submit(formData: FormData) {
   'use server'
-  console.log('formData:', [...formData.entries()]);
 
   const data = formData;
   const game = getGame(cookies());
