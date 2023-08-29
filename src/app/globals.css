@@ -40,8 +40,3 @@ body {
 .currentRow {
   filter: drop-shadow(3px 3px 10px var(--color-bg-0))
 }
-
-.maxGrid {
-  --width: min(100vw, 40vh, 380px);
-  max-width: var(--width);
-}

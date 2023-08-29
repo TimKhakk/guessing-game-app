@@ -1,3 +1,4 @@
+import { GitHubSvg } from '@/components/svg'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -17,6 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <header className='w-full'>
+          <a href="">
+            <GitHubSvg />
+          </a>
+        </header>
         {children}
       </body>
     </html>
