@@ -12977,4 +12977,4 @@ export const ALLOWED_GUESSES = new Set([
 	'zymic'
 ]);
 
-export const GAME_COOKIE_KEY = 'sverdle-1'
+export const GAME_COOKIE_KEY = 'nerdle'

@@ -3,6 +3,9 @@ import { Letter } from "@/components/Letter";
 import { BackSvg } from "@/components/svg";
 import Link from "next/link";
 
+const GAME_NAME = 'Nerdle';
+const ORIGINAL_GAME_NAME = 'Wordle';
+
 export default function HowToPlay() {
   return (
     <div
@@ -11,7 +14,7 @@ export default function HowToPlay() {
       <h1 className="text-6xl text-center">How to play</h1>
 
       <p>
-        Sverdle is a clone of <a className="text-colorTheme1 hover:underline" href="https://www.nytimes.com/games/wordle/index.html">Wordle</a>, the
+        {GAME_NAME} is a clone of <a className="text-colorTheme1 hover:underline" href="https://www.nytimes.com/games/wordle/index.html">{ORIGINAL_GAME_NAME}</a>, the
         word guessing game. To play, enter a five-letter English word. For example:
       </p>
 
@@ -45,7 +48,7 @@ export default function HowToPlay() {
       <p className="text-start">This time we guessed right! You have <strong>six</strong> guesses to get the word.</p>
 
       <p>
-        Unlike the original Wordle, Sverdle runs on the server instead of in the browser, making it
+        Unlike the original {ORIGINAL_GAME_NAME}, {GAME_NAME} runs on the server instead of in the browser, making it
         impossible to cheat. It uses <code>&lt;form&gt;</code> and cookies to submit data, meaning you can
         even play with JavaScript disabled!
       </p>
