@@ -5,7 +5,7 @@ import { GAME_COOKIE_KEY } from '@/lib/game/const';
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers';
 
-export default async function submit(formData: FormData) {
+export default async function submitGuess(formData: FormData) {
   'use server'
 
   const data = formData;
@@ -16,7 +16,6 @@ export default async function submit(formData: FormData) {
     return;
   }
 
-  console.log('game:', game);
   cookies().set(GAME_COOKIE_KEY, game.toString());
   revalidatePath('/')
 }
