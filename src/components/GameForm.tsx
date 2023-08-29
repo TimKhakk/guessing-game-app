@@ -1,6 +1,8 @@
 'use client'
 
-import submit, { restartGame } from "@/app/actions";
+import submitGuess, { restartGame } from "@/app/actions";
+import { ButtonLetter } from "@/components/ButtonLetter";
+import { Letter } from "@/components/Letter";
 import { cn } from "@/lib/ulils/cn";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useEventListener } from "usehooks-ts";
@@ -25,16 +27,13 @@ export function GameForm({
   }, [initialData])
 
 	const hasWon = initialData.answers.at(-1) === 'xxxxx';
-
 	const currentGuessIdx = hasWon ? -1 : initialData.answers.length;
-
-	/** Whether the current guess can be submitted */
 	const submittable = data.guesses[currentGuessIdx]?.length === 5;
 
-  function update(event: Event, target: HTMLButtonElement) {
+  function handleUpdate(event: Event, target: HTMLButtonElement) {
     event.preventDefault();
 		const guess = data.guesses[currentGuessIdx];
-		const key = (target as HTMLButtonElement).getAttribute(
+		const key = (target as HTMLButtonElement)?.getAttribute(
 			'data-key'
 		);
 
@@ -67,17 +66,18 @@ export function GameForm({
     if (event.metaKey) return;
 
 		const res = document
-			.querySelector(`[data-key="${event.key}" i]`)! as HTMLButtonElement
+			.querySelector(`[data-key="${event.key}" i]`) as HTMLButtonElement | null
 
-    update(event, res)
+    if (!res) return;
+    handleUpdate(event, res)
   })
 
-  const closeClassNames = 'border-blue-600 border-2'
-  const missingClassNames = 'bg-white/50 text-black/50'
-
-  const [letterClassNames, description] = useMemo(() => {
-    const classnames = {};
-    const description = {};
+  // move to file
+  const letterClassNames = useMemo(() => {
+    const classnames: Record<string, string> = {};
+    const closeClassNames = 'border-colorTheme2 border-2';
+    const missingClassNames = 'bg-white/50 text-black/50';
+    const exactClassNames = 'bg-colorTheme2 text-white';
 
 		data.answers.forEach((answer, i) => {
 			const guess = data.guesses[i];
@@ -86,20 +86,18 @@ export function GameForm({
 				const letter = guess[i];
 
 				if (answer[i] === 'x') {
-					classnames[letter] = 'exact';
-					description[letter] = 'correct';
+					classnames[letter] = exactClassNames;
 				} else if (!classnames[letter]) {
 					classnames[letter] = answer[i] === 'c' ? closeClassNames : missingClassNames;
-					description[letter] = answer[i] === 'c' ? 'present' : 'absent';
 				}
 			}
 
 		});
-    return [classnames, description]
+    return classnames
   }, [data]);
 
   return (
-    <form ref={formRef} className="flex w-full items-center flex-col gap-4" action={submit}>
+    <form ref={formRef} className="flex w-full items-center flex-col gap-4" action={submitGuess}>
       <div className="max-w-[min(100vw,40vh,380px)] flex flex-col gap-1 w-full h-full justify-start">
         {Array.from({ length: MAX_GUESS_COUNT }, (_, rowIdx) => (
           <div className={cn("grid grid-cols-[repeat(5,1fr)] gap-1", {
@@ -114,24 +112,7 @@ export function GameForm({
               const close = answer === 'c'
               const missing = answer === '_'
               return (
-                <div
-                  key={colIdx}
-                  className={cn('w-full aspect-[1] h-full rounded-sm text-[calc(0.08_*_min(100vw,40vh,380px))] flex items-center justify-center text-center bg-white ', {
-                    'border-blue-600 border-2': close,
-                    'outline-2 outline outline-red-500': selected,
-                    missingClassNames: missing,
-                    'bg-blue-600 text-white': exact,
-                  })}
-                >
-                  <span className="hidden">
-                    {exact && 'correct'}
-                    {exact && 'close'}
-                    {exact && 'missing'}
-                    {exact && 'empty'}
-                  </span>
-                  {value}
-                  <input disabled={!isCurrent} name="guess" type="hidden" value={value} />
-                </div>
+                <Letter key={colIdx} value={value} selected={selected} missing={missing} close={close} exact={exact} isCurrent={isCurrent} />
               );
             })}
           </div>
@@ -144,7 +125,7 @@ export function GameForm({
           {!hasWon && data.answer && (
             <p>the answer was {data.answer}</p>
           )}
-          <button data-key="enter" className="rounded-sm hover:bg-red-500 hover:text-white p-4 border-2 border-red-500" formAction={restartGame}>
+          <button data-key="enter" className="rounded-sm hover:bg-colorTheme1 hover:text-white p-4 border-2 border-colorTheme1" formAction={restartGame}>
             {hasWon ? 'you won :)' : `game over :(`} play again?
           </button>
         </>
@@ -166,21 +147,17 @@ export function GameForm({
                       enter
                     </button>
                   )}
-                  <button
-                    className={cn('h-full bg-white border-0 m-0 text-black rounded-sm w-[min(8vw,4vh,40px)] text-[calc(min(8vw,4vh,40px)_*_0.5)] p-1')}
-                    key={letter}
-                    onClick={(e) => update(e, e.target)}
-                    data-key={letter}
+                  <ButtonLetter
+                    className={letterClassNames[letter]}
+                    onClick={(e) => handleUpdate(e, e.target)}
                     disabled={data.guesses[currentGuessIdx]?.length === 5}
-                    name="key"
-                  >
-                    {letter}
-                  </button>
+                    letter={letter}
+                  />
 
                   {(rowIdx === arr.length - 1) && (letterIdx === letters.length - 1) && (
                     <button
                       className={cn('uppercase h-full bg-white border-0 m-0 text-black rounded-sm w-[calc(min(8vw,4vh,40px)_*_1.5)] text-[calc(min(8vw,4vh,40px)_*_0.3)] p-1')}
-                      onClick={(e) => update(e, e.target)}
+                      onClick={(e) => handleUpdate(e, e.target)}
                       data-key="backspace"
                       name="key"
                       value="backspace"
