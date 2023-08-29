@@ -31,7 +31,10 @@ export function GameForm({
 	const currentGuessIdx = hasWon ? -1 : initialData.answers.length;
 	const submittable = data.guesses[currentGuessIdx]?.length === 5;
 
-  function handleUpdate(event: Event, target: HTMLButtonElement) {
+  function handleUpdate<E extends Pick<Event, 'preventDefault'>>(
+    event: E,
+    target: HTMLButtonElement,
+  ) {
     event.preventDefault();
 		const guess = data.guesses[currentGuessIdx];
 		const key = (target as HTMLButtonElement)?.getAttribute(
@@ -152,7 +155,7 @@ export function GameForm({
                   )}
                   <ButtonLetter
                     className={letterClassNames[letter]}
-                    onClick={(e) => handleUpdate(e, e.target)}
+                    onClick={(e) => handleUpdate(e, e.target as HTMLButtonElement)}
                     disabled={data.guesses[currentGuessIdx]?.length === 5}
                     letter={letter}
                   />
@@ -160,7 +163,7 @@ export function GameForm({
                   {(rowIdx === arr.length - 1) && (letterIdx === letters.length - 1) && (
                     <button
                       className={cn('uppercase h-full bg-white border-0 m-0 text-black rounded-sm w-[calc(min(8vw,4vh,40px)_*_1.5)] text-[calc(min(8vw,4vh,40px)_*_0.3)] p-1')}
-                      onClick={(e) => handleUpdate(e, e.target)}
+                      onClick={(e) => handleUpdate(e, e.target as HTMLButtonElement)}
                       data-key="backspace"
                       name="key"
                       value="backspace"
