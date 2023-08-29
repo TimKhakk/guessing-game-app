@@ -32,7 +32,7 @@ export default function HowToPlay() {
         The <Letter className="inline px-2 pb-1 mx-1 text-base" value="y" exact /> is in the right place. <Letter className="inline px-2 pb-1 mx-1 text-base" value="r" close /> and
         <Letter className="inline px-2 pb-1 mx-1 text-base" value="y" close />
         are the right letters, but in the wrong place. The other letters are wrong, and can be discarded.
-        Let's make another guess:
+        Let&apos;s make another guess:
       </p>
 
       <div className="max-w-[min(100vw,40vh,320px)] flex flex-col gap-1 w-full h-full justify-start">
