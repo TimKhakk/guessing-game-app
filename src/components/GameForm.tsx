@@ -5,6 +5,7 @@ import { ButtonLetter } from "@/components/ButtonLetter";
 import { Letter } from "@/components/Letter";
 import { cn } from "@/lib/ulils/cn";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import ConfettiExplosion from "react-confetti-explosion";
 import { useEventListener } from "usehooks-ts";
 
 const MAX_GUESS_COUNT = 6;
@@ -119,7 +120,9 @@ export function GameForm({
         ))}
       </div>
 
-
+      {hasWon && (
+        <ConfettiExplosion force={0.7} width={window.innerWidth} height={window.innerHeight} colors={['#ff3e00', '#40b3ff', '#676778']} />
+      )}
       {hasWon || data.answers.length >= 6 ? (
         <>
           {!hasWon && data.answer && (

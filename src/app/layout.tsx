@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className='w-full'>
-          <a href="">
+        <header className='w-full flex justify-end items-center p-1'>
+          <a href="https://github.com/TimKhakk/guessing-game-app">
             <GitHubSvg />
           </a>
         </header>
