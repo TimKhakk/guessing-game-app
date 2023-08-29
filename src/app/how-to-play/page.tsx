@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function HowToPlay() {
   return (
     <div
-      className="flex flex-col gap-4 min-h-screen justify-start p-24"
+      className="flex max-w-[min(60vw,1200px)] mx-auto flex-col gap-8 min-h-screen justify-start p-24"
     >
       <h1 className="text-6xl text-center">How to play</h1>
 

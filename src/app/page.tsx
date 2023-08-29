@@ -15,7 +15,6 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col gap-4 min-h-screen items-center justify-start p-24">
-      <p>Answer: {game.answer}</p>
       <Link href="/how-to-play" className='inline-flex items-center gap-1 text-colorTheme1 hover:underline'>
         <InfoSvg />
         How to play</Link>
